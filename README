@@ -1,0 +1,7 @@
+Crude PNM output in Lua.  Intended for teaching people programming.
+(Set pixels, loop over every pixel, do math, create animations, ...)
+
+PNM because it's easy to generate (meaning I can pick the data 
+representation in Lua) and because it allows up to 16 bits per
+r/g/b channel.
+
