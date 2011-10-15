@@ -1,11 +1,11 @@
-#!/opt/local/bin/lua
+#!/usr/bin/lua
 -- vim: set tw=78 ts=4 et syn=lua fdm=marker :
 -- ------------------------------------------------------------------------ --
 
 -- XXX settings
-w = 100
-h = 100
-d = 255
+width  = 100
+height = 100
+depth  = 255
 filename = "test1.pnm"
 
 -- ------------------------------------------------------------------------ --
@@ -35,9 +35,9 @@ _metaPixel = {
 
 -- allocate image
 img = {}
-for y = 1, h do
+for y = 1, height do
     local t = {}
-    for x = 1, w do
+    for x = 1, width do
         t[x] = setmetatable({0,0,0}, _metaPixel)
     end
     img[y] = t
@@ -49,37 +49,37 @@ end
 -- XXX insert here XXX
 
 --[[
-for i = 1,math.min(w,h) do
-    img[i][i].r = d
-    img[h-i+1][i].g = d
-    img[math.random(1,h)][math.random(1,w)].b = d
+for i = 1,math.min(width,height) do
+    img[i][i].r = depth
+    img[height-i+1][i].g = depth
+    img[math.random(1,height)][math.random(1,width)].b = depth
 end
 --]]
 
 ---[[
-local maxdist = math.sqrt((w^2)+(h^2))
-for y = 1, h do
-    for x = 1, w do
+local maxdist = math.sqrt((width^2)+(height^2))
+for y = 1, height do
+    for x = 1, width do
         local pixel = img[y][x]
-        pixel.r = math.floor((x/w)*d)
-        pixel.g = math.floor((y/h)*d)
+        pixel.r = math.floor((x/width)*depth)
+        pixel.g = math.floor((y/height)*depth)
         local dist = math.sqrt((x^2)+(y^2))
-        pixel.b = math.floor((1 - dist/maxdist)*d)
+        pixel.b = math.floor((1 - dist/maxdist)*depth)
     end
 end
 --]]
 
 --[[
 local x = 1
-for y = 1, h do
+for y = 1, height do
     local dir = (-1)^math.random(0,1)
     for _ = 1, 5 do
-        img[y][x].r = d
+        img[y][x].r = depth
         x = x + dir
-        if x > w then
+        if x > width then
             x = 1
         elseif x < 1 then
-            x = w
+            x = width
         end
     end
 end
@@ -87,5 +87,5 @@ end
 
 -- ------------------------------------------------------------------------ --
 -- image writing
-PPM.ppmWriteFile(img,d,filename)
+PPM.ppmWriteFile(img,depth,filename)
 

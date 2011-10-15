@@ -1,4 +1,4 @@
-#!/opt/local/bin/lua
+#!/usr/bin/lua
 -- vim: set tw=78 ts=4 et syn=lua fdm=marker :
 -- ------------------------------------------------------------------------ --
 -- quick PPM output (still readable)
