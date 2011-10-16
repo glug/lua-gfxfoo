@@ -55,23 +55,50 @@ img = newImage()
 -- image generation
 
 for frame = 1, frames do
-    local time = frame/frames
+    local time = (frame-1)/(frames-1)
+    local ltime = (frame-1)/frames
 
 -- ------------------------------------------------------------------------ --
     -- XXX insert here XXX
-    time = 2*math.pi*time
+
+    --[[
+    local need_reset = true
+    time = 2*math.pi*ltime
     local y = math.ceil((height/2.1)*(1+math.sin(time)+(2.1/height)))
     local x = math.ceil((width /2.1)*(1+math.cos(time)+(2.1/width)))
-    print(x,y)
     img[y][x] = {depth, depth, depth}
+    --]]
+
+    ---[[
+    local need_reset = false
+    time = depth*time
+    if not setup then
+        setup = true
+        for y=1,height do
+            local line = img[y]
+            for x=1,width do
+                line[x].r = ((x-1)/(width -1))*depth
+                line[x].g = ((y-1)/(height-1))*depth
+            end
+        end
+    end
+    for y = 1, height do
+        local line = img[y]
+        for x = 1, width do
+            line[x].b = time
+        end
+    end
+    --]]
 
 -- ------------------------------------------------------------------------ --
     -- image writing
     local fname = os.tmpname(basename)
     PPM.ppmWriteFile(img,depth,fname)
     os.execute(string.format("pnmtopng < %s > %s%0"..numberwidth.."d.png",fname,basename,frame))
-    img = newImage()
-    collectgarbage()
+    if need_reset then
+        img = newImage()
+        collectgarbage()
+    end
 end
 
 
